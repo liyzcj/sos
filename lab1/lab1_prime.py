@@ -9,13 +9,13 @@ class Agent:
         self.name = "Agent" + str(number)
         # print(self.number)
 
-    def action(self, allnumber):
-        delete_num = []
+    def delete_one(self, allnumber):
+        delete_num = None
         for n in allnumber:
             if n % self.number == 0 and n != self.number:
                 allnumber.remove(n)
-                delete_num.append(n)
-
+                delete_num = n
+                break
         print("Name: {},  Action: Remove {}".format(self.name, delete_num))
 
         
@@ -40,20 +40,21 @@ def sos(n):
     numbers.remove(1)
     # print(numbers)
     prime = gen_correct_res(n)
+    print("trueprime ={} ".format(prime))
     # print(prime)
-    agents = [Agent(i) for i in prime]
+    agents = [Agent(i) for i in numbers]
     # print(agents)
     while True:
         print("Current Numbers: {} ".format(numbers))
         index = randint(0,len(prime)-1)
-        agents[index].action(numbers)
+        agents[index].delete_one(numbers)
         sleep(1)
         if numbers == prime:
+            print("numbers ==== {}".format(numbers))
             print("OK")
             break
-    
 if __name__ == '__main__':
-    n = 10
+    n = 30
     sos(n)
 
     
