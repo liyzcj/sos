@@ -9,11 +9,11 @@ class Agent:
         self.name = "Agent" + str(number)
         # print(self.number)
 
-    def delete_one(self, allnumber):
+    def delete_one(self, all_number):
         delete_num = None
-        for num in allnumber:
+        for num in all_number:
             if num % self.number == 0 and num != self.number:
-                allnumber.remove(num)
+                all_number.remove(num)
                 delete_num = num
                 break
         print("Name: {},  Action: Remove {}".format(self.name, delete_num))
