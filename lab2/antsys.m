@@ -6,10 +6,10 @@ clc;
 
 
 %% STEP 1: Initialize
-% load map1.txt; % load map
-% d = map1;
-load map.mat;
-d = D;
+load map1.txt; % load map
+d = map1;
+% load map.mat;
+% d = D;
 
 nc = size(d, 1); % number of cite
 
@@ -116,7 +116,6 @@ while iter<=iters
     best_length_iter(iter) = L(best_ant(1));
     best_path_iter(iter,:) = path(best_ant(1),:); 
     iter_avg_length(iter) = mean(L);
-    best_length_iter(iter);
     %% STEP 5: Update Pheromone
     delta_tau = zeros(nc,nc);
     for ant = 1:K
@@ -126,7 +125,7 @@ while iter<=iters
                 delta_tau(path(ant,n),path(ant,n+1)) + Q/L(ant);
         end
         %pheromone from last city to first
-        delta_tau(path(ant,n),path(ant,1)) = ...
+        delta_tau(path(ant,nc),path(ant,1)) = ...
             delta_tau(path(ant,n),path(ant,1)) + Q/L(ant);
     end
     % Pheromone attenuation 
