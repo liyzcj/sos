@@ -91,7 +91,7 @@ class Aco:
                     delta_tau[int(ant.path[n])][int(ant.path[n + 1])] += self.Q / ant.length
                 delta_tau[int(ant.path[nc - 1])][int(ant.path[1])] += self.Q / ant.length
 
-            tau = (1 - rho) * tau + delta_tau
+            tau = (1 - p[2]) * tau + delta_tau
             # compute best solution global
         best_iter = np.where(best_length_iter == min(best_length_iter))
         best_length = best_length_iter[best_iter[0][0]]
@@ -114,6 +114,7 @@ if __name__ == "__main__":
     g1 = np.loadtxt("map1.txt")
     g2 = np.loadtxt("map2.txt")
     g3 = np.loadtxt("map3.txt")
+    print(g1.shape,g2.shape,g3.shape)
     # K = 50  # number of ant (equal number of cite)
     # iters = 100  # number of iteration
     # Q = 100  # Pheromone increase factor
