@@ -5,6 +5,7 @@ Created on Tue Oct 16 05:03:48 2018
 """
 import numpy as np
 import matplotlib.pyplot as plt
+from lab2.Dp import Dp
 
 
 class Ant:
@@ -40,7 +41,7 @@ class Ant:
 
 class Aco:
 
-    def __init__(self, K=100, iters=100, Q=200):
+    def __init__(self, K=5, iters=100, Q=50):
 
         self.K = K
         self.iters = iters
@@ -83,7 +84,7 @@ class Aco:
                     best_path_iter[it] = np.array(ant.path)
                     iter_avg_length[it] = np.mean(all_length)
                     break
-            print("it = ", it, " best length = ", min(all_length))
+            # print("it = ", it, " best length = ", min(all_length))
             # update pheromone
             delta_tau = np.zeros((nc, nc))
             for ant in ants:
@@ -97,13 +98,13 @@ class Aco:
         best_length = best_length_iter[best_iter[0][0]]
         best_path = best_path_iter[best_iter[0][0]]
 
-        # plot figure
-        plt.plot(best_length_iter)
-        plt.plot(iter_avg_length, 'r')
-        plt.xlabel('iteration')
-        plt.ylabel('length')
-        plt.legend(['length', 'length avg'])
-        plt.show()
+        # # plot figure
+        # plt.plot(best_length_iter)
+        # plt.plot(iter_avg_length, 'r')
+        # plt.xlabel('iteration')
+        # plt.ylabel('length')
+        # plt.legend(['length', 'length avg'])
+        # plt.show()
 
         return best_length, best_path
 
@@ -114,7 +115,7 @@ if __name__ == "__main__":
     g1 = np.loadtxt("map1.txt")
     g2 = np.loadtxt("map2.txt")
     g3 = np.loadtxt("map3.txt")
-    print(g1.shape,g2.shape,g3.shape)
+    g = g3
     # K = 50  # number of ant (equal number of cite)
     # iters = 100  # number of iteration
     # Q = 100  # Pheromone increase factor
@@ -122,11 +123,26 @@ if __name__ == "__main__":
     # alpha = 1  # importance of pheromone
     # beta = 2  # importance of heuristics
     # rho = 0.1  # Pheromone attenuation factor
-    param = (1, 2, 0.1)
+
+    # param = (1, 2, 0.1)
+    alpha = float(input("Alpha:"))
+    beta = float(input("Beta:"))
+    rho = float(input("Rho:"))
+    param = (alpha, beta, rho)
     """
     param: alpha, beta, rho
     """
-
+    solution_aco_all = []
     aco = Aco()
-    solution = aco.solve(g1, param)
-    print(solution)
+    for i in range(10):
+        solution_aco = aco.solve(g, param)
+        print(f'solution aco {i} : L={solution_aco[0]}, path={solution_aco[1]}')
+        solution_aco_all.append(solution_aco)
+    # dp solution
+    dp = Dp(g, 0)
+    solution_dp = dp.tsp()
+    print(f'solution dp : {solution_dp}')
+    # compute error
+    error = [solution_aco_all[i][0] - solution_dp for i in range(10)]
+    # print result
+    print(f'alpha = {alpha}, beta = {beta}, rho = {rho} error = {min(error)}')
