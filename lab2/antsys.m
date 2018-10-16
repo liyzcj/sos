@@ -84,7 +84,8 @@ while iter<=iters
             end
             % compute probability of transport
             for k = 1:length(allowed)
-                P(k) = (tau(visited(end),allowed(k)) ^ alpha) * (eta(visited(end), allowed(k)) ^ beta);
+                P(k) = (tau(visited(end),allowed(k)) ^ alpha) * ...
+                    (eta(visited(end), allowed(k)) ^ beta);
             end
             P=P/(sum(P));
             % randomly choose next according probability
@@ -115,7 +116,7 @@ while iter<=iters
     best_length_iter(iter) = L(best_ant(1));
     best_path_iter(iter,:) = path(best_ant(1),:); 
     iter_avg_length(iter) = mean(L);
-    best_length_iter(iter)
+    best_length_iter(iter);
     %% STEP 5: Update Pheromone
     delta_tau = zeros(nc,nc);
     for ant = 1:K
