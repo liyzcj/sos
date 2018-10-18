@@ -115,7 +115,7 @@ if __name__ == "__main__":
     g1 = np.loadtxt("map1.txt")
     g2 = np.loadtxt("map2.txt")
     g3 = np.loadtxt("map3.txt")
-    g = g3
+    g = g1
     # K = 50  # number of ant (equal number of cite)
     # iters = 100  # number of iteration
     # Q = 100  # Pheromone increase factor
