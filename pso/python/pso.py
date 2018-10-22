@@ -7,8 +7,7 @@ Created on Mon Oct 22 00:20:52 2018
 import numpy as np
 import matplotlib.pyplot as plt
 from particle import Particle
-from function import *
-
+from function import sphere,rastrigin,rosenbrock,griewank
 
 class Pso():
     
@@ -16,13 +15,19 @@ class Pso():
                  dim = 2,
                  size = 25,
                  iters = 100,
-                 x = 100,
                  func=sphere,
                  v = 1):
         self.dim = dim
         self.size = size    # number of particles
         self.iters = iters  # number of iterations
         self.func = func    # the fit function
+        # Function space for each function
+        if func == sphere or func == rastrigin:
+            x = 5.12
+        elif func == rosenbrock:
+            x = 2.048
+        elif func == griewank:
+            x = 600
         self.x =(-x,x)      # limitation of position
         self.v = (-v,v)     # limitaion of velocity
         
@@ -111,8 +116,31 @@ class Pso():
         
 if __name__ == '__main__':
     
-    pso = Pso(func=rosenbrock, x=2.048)
-    result = pso.solution(top ='4-neighbours',variant='constriction')
-    plt.plot(result)
+    fipairs = [(1,3),(2,2),(3,1)]
+    topologies = ['full', 'ring', '4-neighbours']
+    variants = ['main', 'weight', 'constriction']
+    functions = {sphere:'sphere',
+                 rosenbrock:'rosenbrock',
+                 rastrigin:'rastrigin',
+                 griewank:'griewank'}
+    
+    psoes = [Pso(func = func) for func in functions.keys()]
+    for pso in psoes:
+        for fipair in fipairs:
+            for topology in topologies:
+                for variant in variants:
+                    best = []
+                    for i in range(10):  
+                        result = pso.solution(c=fipair,
+                                              top=topology,
+                                              variant=variant)
+                        best.append(np.min(result))
+                    print(f'function:{functions[pso.func]} |'
+                          f'fipair:{fipair} |'
+                          f'topology:{topology} |'
+                          f'variant:{variant} |'
+                          f'Error:{np.min(best)}')
+                        
+#    plt.plot(result)
     
                 
