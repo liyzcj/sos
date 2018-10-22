@@ -24,14 +24,24 @@ class Particle():
             fbest = func(self.pbest)
         return fbest
         
-    def update_velocity_main(self, c, v):
-        self.velocity = self.velocity + \
-        c[0] * np.random.rand() * (self.pbest - self.position) + \
-        c[1] * np.random.rand() * (self.gbest - self.position)
+    def update_velocity(self, c, v, **kw):
+        
+        if 'weight' in kw.keys():
+            self.velocity = kw['weight'] * self.velocity + \
+                c[0] * np.random.rand() * (self.pbest - self.position) + \
+                c[1] * np.random.rand() * (self.gbest - self.position)
+        elif 'constrictor' in kw.keys():
+            self.velocity = kw['constrictor'] *(self.velocity + \
+                c[0] * np.random.rand() * (self.pbest - self.position) + \
+                c[1] * np.random.rand() * (self.gbest - self.position))
+        else:
+            self.velocity = self.velocity + \
+                c[0] * np.random.rand() * (self.pbest - self.position) + \
+                c[1] * np.random.rand() * (self.gbest - self.position)
         # limitition of velocity
         self.velocity[np.where(self.velocity > v[1])] = v[1]
         self.velocity[np.where(self.velocity < v[0])] = v[0]
-        
+    
         
     def update_position(self, x):
         self.position += self.velocity
