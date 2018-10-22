@@ -76,10 +76,8 @@ class Pso():
 
 if __name__ == '__main__':
     
-    print('start pso:')
     pso = Pso()
     result = pso.solution()
     plt.plot(result)
-    print('end pso')
     
                 
