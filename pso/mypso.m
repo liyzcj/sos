@@ -10,13 +10,13 @@ size = 10;
 iters = 100;
 result = zeros(iters,1);
 % funtion f
-func = @griewank;
+func = @mysphere;
 % initial vector of velocity max and min
-vmax = 10;
-vmin = -10;
+vmax = 1;
+vmin = -1;
 % initial vector of position max and min
-xmax = 600;
-xmin = -600;
+xmax = 5.12;
+xmin = -5.12;
 
 % Initial position and velocity accroding to limitation.
 position = rand(size, dimension) * (xmax - xmin) + xmin;
@@ -28,16 +28,17 @@ f = zeros(size,1);
 fbest = zeros(size,1);
 %% Iterations
 for it = 1:iters
-    %% set Pbest and Gbest
+    %% update Pbest and Gbest
     % compute fitness and compare with pbest( function f)
     for i = 1:size
         f(i) = func(position(i,:));
         fbest(i) = func(pbest(i,:));
         if f(i) < fbest(i)
             pbest(i,:) = position(i,:);
+            fbest(i) = func(pbest(i,:));
         end
     end
-    % set gbest
+    % update gbest
     [result(it), pos] = min(fbest);
     gbest = pbest(pos,:);
     

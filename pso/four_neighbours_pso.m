@@ -31,7 +31,7 @@ r = sqrt(size);
 grid = reshape(1:size,r,r)';
 %% Iterations
 for it = 1:iters
-    %% set Pbest
+    %% update Pbest
     % compute fitness and compare with pbest( function f)
     for i = 1:size
         f(i) = func(position(i,:));
@@ -40,7 +40,7 @@ for it = 1:iters
             pbest(i,:) = position(i,:);
             fbest(i) = func(pbest(i,:));
         end
-        %% Set Gbest for 4 Neighbours
+        %% update Gbest for 4 Neighbours
         % get the location in grid
         row = ceil(i/r);
         column = rem(i,r);
