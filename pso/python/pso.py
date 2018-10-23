@@ -15,8 +15,7 @@ class Pso():
                  dim = 2,
                  size = 25,
                  iters = 100,
-                 func=sphere,
-                 v = 1):
+                 func=sphere):
         self.dim = dim
         self.size = size    # number of particles
         self.iters = iters  # number of iterations
@@ -24,10 +23,13 @@ class Pso():
         # Function space for each function
         if func == sphere or func == rastrigin:
             x = 5.12
+            v = 1
         elif func == rosenbrock:
             x = 2.048
+            v = 0.2
         elif func == griewank:
             x = 600
+            v = 60
         self.x =(-x,x)      # limitation of position
         self.v = (-v,v)     # limitaion of velocity
         
