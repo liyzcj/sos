@@ -58,20 +58,21 @@ class Cso:
                     if copycat.all() == np.array(
                             [copycat[0] for j in range(sm)]).all():
                         P = np.array([1 for j in range(len(copycat))])
-                        ccc = 0
+                        # ccc = 0
 
                     else:
-                        ccc = 1
+                        # ccc = 1
                         copy_fit = [function(j) for j in copycat]
                         fb = min(copy_fit)
                         fmax = max(copy_fit)
                         fmin = min(copy_fit)
                         P = np.array(
-                            [abs(copy_fit[j] - fb) / (fmax - fmin) for j in
+                            [abs(function(j) - fb) / (fmax - fmin) for j in
                              copycat])
+                            #  [abs(copy_fit[j] - fb) / (fmax - fmin) for j in
+                            #  len(copycat)])
                     self.__agents[i] = copycat[P.argmax()]
-                    if ccc:
-                        fitx[i] = copy_fit[P.argmax()]
+
                 else:
 
                     ww = w + (iteration - t) / (2 * iteration)
@@ -83,8 +84,9 @@ class Cso:
                                                 csi)
                     self.__agents[i] = list(1 / 2 * (vinf + cinf))
 
-            Pbest = self.__agents[fitx.argmin()]
-            if fitx.min() < self.Gbest_fit:
+            Pbest = self.__agents[
+                np.array([function(x) for x in self.__agents]).argmin()]
+            if function(Pbest) < function(Gbest):
                 Gbest = Pbest
                 self.__agents = np.clip(self.__agents, lb, ub)
             flag = self.__set_flag(n, mr)
